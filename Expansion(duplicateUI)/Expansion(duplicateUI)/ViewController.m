@@ -44,14 +44,12 @@
 
 
     
-    
+    // 测试
     UIButton *copyBtn = [_myButton duplicate];
     UILabel *copyL = [_myLabel duplicate];
     UIView *copyView = [_myView duplicate];
-    
 
     NSArray *viewArr = @[copyBtn,copyL, copyView];
-
     for (UIView *view in viewArr) {
         CGRect newFrame = view.frame;
         newFrame.origin.y += 100;
@@ -60,7 +58,9 @@
     }
     
     
-    // 代码测试
+    
+    
+    // 代码字体测试
     UIButton *NewButton = [UIButton buttonWithType:UIButtonTypeSystem];
     NewButton.frame = CGRectMake(50, 300, 330, 40);
     NewButton.backgroundColor = [UIColor cyanColor];
@@ -73,7 +73,7 @@
     [self.view addSubview:copyNew];
     
     
-    // IB测试
+    // IB字体测试
     UIButton *copyIBNew = [_IBbutton duplicate];
     CGRect newFrame = _IBbutton.frame;
     newFrame.origin.y += 50;
