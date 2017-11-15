@@ -61,10 +61,10 @@
 		21FD8CB91EFBD677001EB923 /* Expansion(duplicateUI) */ = {
 			isa = PBXGroup;
 			children = (
+				21FD8CD11EFBD699001EB923 /* Class */,
 				21FD8CC31EFBD677001EB923 /* Main.storyboard */,
 				21FD8CC01EFBD677001EB923 /* ViewController.h */,
 				21FD8CC11EFBD677001EB923 /* ViewController.m */,
-				21FD8CD11EFBD699001EB923 /* Class */,
 				21FD8CBA1EFBD677001EB923 /* Supporting Files */,
 			);
 			path = "Expansion(duplicateUI)";
@@ -323,6 +323,7 @@
 				21FD8CD01EFBD677001EB923 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

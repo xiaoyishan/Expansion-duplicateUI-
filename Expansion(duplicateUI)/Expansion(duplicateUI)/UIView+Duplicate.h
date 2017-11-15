@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YYModel.h"
 
 @interface UIView (Duplicate)
 -(UIView*)duplicate;
@@ -17,7 +18,11 @@
 //按钮
 @interface UIButton (Duplicate)
 -(UIButton*)duplicate;
+// 拷贝layer
++(void)Ext_CopyAllLayer:(UIView*)NewView SelfView:(UIView*)OldView;
 @end
+
+
 
 //标签
 @interface UILabel (Duplicate)

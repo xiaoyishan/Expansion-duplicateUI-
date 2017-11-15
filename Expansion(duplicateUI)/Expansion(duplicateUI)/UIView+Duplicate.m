@@ -16,28 +16,83 @@
 {
     NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:self];
     UIView *NewView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    NewView.layer.masksToBounds = self.layer.masksToBounds;
-    NewView.layer.cornerRadius = self.layer.cornerRadius;
-    NewView.layer.borderColor = self.layer.borderColor;
-    NewView.layer.borderWidth = self.layer.borderWidth;
-    NewView.clipsToBounds = self.clipsToBounds;
+    [UIButton Ext_CopyAllLayer:NewView SelfView:self]; // 拷贝layer
     return NewView;
 }
+
 @end
+
+
+
+
+
 
 //按钮
 @implementation UIButton (Duplicate)
+
 - (UIButton*)duplicate{
     NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:self];
     UIButton *NewBtn = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    NewBtn.layer.masksToBounds = self.layer.masksToBounds;
-    NewBtn.layer.cornerRadius = self.layer.cornerRadius;
-    NewBtn.layer.borderColor = self.layer.borderColor;
-    NewBtn.layer.borderWidth = self.layer.borderWidth;
-    NewBtn.clipsToBounds = self.clipsToBounds;
+    // 修复归档在可视化环境下不能识别UIButtonLabel->font属性 同时激活递归无法遍历出子层级button的titleLabel对象
+    NewBtn.titleLabel.font = self.titleLabel.font;
+    [UIButton Ext_CopyAllLayer:NewBtn SelfView:self]; // 拷贝layer
     return NewBtn;
 }
+
+
+
+
+#pragma mark -- layer 实现 --
+// 拷贝layer
++(void)Ext_CopyAllLayer:(UIView*)NewView SelfView:(UIView*)OldView{
+    NewView.layer.masksToBounds = OldView.layer.masksToBounds;
+    NewView.layer.cornerRadius = OldView.layer.cornerRadius;
+    NewView.layer.borderColor = OldView.layer.borderColor;
+    NewView.layer.borderWidth = OldView.layer.borderWidth;
+    NewView.clipsToBounds = OldView.clipsToBounds;
+    
+    
+    NSMutableArray *NewArr=[NSMutableArray new];
+    NSMutableArray *OldArr=[NSMutableArray new];
+    [self SubLayerNew:NewView addArray:NewArr];
+    [self SubLayerNew:OldView addArray:OldArr];
+    
+    NSLog(@"递归的结果:%zd  旧对象:%zd",NewArr.count, OldArr.count);
+    
+    for (int k=0; k<NewArr.count; k++) {
+        UIView *NewItem = NewArr[k];
+        UIView *OldItem = OldArr[k];
+        
+        NewItem.layer.masksToBounds = OldItem.layer.masksToBounds;
+        NewItem.layer.cornerRadius = OldItem.layer.cornerRadius;
+        NewItem.layer.borderColor = OldItem.layer.borderColor;
+        NewItem.layer.borderWidth = OldItem.layer.borderWidth;
+        NewItem.clipsToBounds = OldItem.clipsToBounds;
+        
+    }
+}
+
+// 递归实现复制全部层级对象
++(void)SubLayerNew:(UIView*)NewView addArray:(NSMutableArray*)Arr{
+    
+    if(!Arr)Arr=[NSMutableArray new];
+    
+    for (UIView *View in NewView.subviews) {
+        [Arr addObject:View];
+        [self SubLayerNew:View addArray:Arr];
+        NSLog(@"--xx--:%@",View.class);
+    }
+}
+
 @end
+
+
+
+
+
+
+
+
 
 //标签
 @implementation UILabel (Duplicate)
@@ -45,11 +100,7 @@
     
     NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:self];
     UILabel *NewLabel = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    NewLabel.layer.masksToBounds = self.layer.masksToBounds;
-    NewLabel.layer.cornerRadius = self.layer.cornerRadius;
-    NewLabel.layer.borderColor = self.layer.borderColor;
-    NewLabel.layer.borderWidth = self.layer.borderWidth;
-    NewLabel.clipsToBounds = self.clipsToBounds;
+    [UIButton Ext_CopyAllLayer:NewLabel SelfView:self]; // 拷贝layer
     return NewLabel;
 }
 @end
@@ -59,11 +110,7 @@
 - (UIImageView*)duplicate{
     NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:self];
     UIImageView *NewView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    NewView.layer.masksToBounds = self.layer.masksToBounds;
-    NewView.layer.cornerRadius = self.layer.cornerRadius;
-    NewView.layer.borderColor = self.layer.borderColor;
-    NewView.layer.borderWidth = self.layer.borderWidth;
-    NewView.clipsToBounds = self.clipsToBounds;
+    [UIButton Ext_CopyAllLayer:NewView SelfView:self]; // 拷贝layer
     return NewView;
 }
 @end
@@ -73,11 +120,7 @@
 - (UITextField*)duplicate{
     NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:self];
     UITextField *NewView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    NewView.layer.masksToBounds = self.layer.masksToBounds;
-    NewView.layer.cornerRadius = self.layer.cornerRadius;
-    NewView.layer.borderColor = self.layer.borderColor;
-    NewView.layer.borderWidth = self.layer.borderWidth;
-    NewView.clipsToBounds = self.clipsToBounds;
+    [UIButton Ext_CopyAllLayer:NewView SelfView:self]; // 拷贝layer
     return NewView;
 }
 @end
@@ -87,11 +130,7 @@
 - (UITextView*)duplicate{
     NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:self];
     UITextView *NewView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    NewView.layer.masksToBounds = self.layer.masksToBounds;
-    NewView.layer.cornerRadius = self.layer.cornerRadius;
-    NewView.layer.borderColor = self.layer.borderColor;
-    NewView.layer.borderWidth = self.layer.borderWidth;
-    NewView.clipsToBounds = self.clipsToBounds;
+    [UIButton Ext_CopyAllLayer:NewView SelfView:self]; // 拷贝layer
     return NewView;
     
 }
@@ -102,11 +141,7 @@
 - (UIScrollView*)duplicate{
     NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:self];
     UIScrollView *NewView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    NewView.layer.masksToBounds = self.layer.masksToBounds;
-    NewView.layer.cornerRadius = self.layer.cornerRadius;
-    NewView.layer.borderColor = self.layer.borderColor;
-    NewView.layer.borderWidth = self.layer.borderWidth;
-    NewView.clipsToBounds = self.clipsToBounds;
+    [UIButton Ext_CopyAllLayer:NewView SelfView:self]; // 拷贝layer
     return NewView;
     
 }
@@ -117,11 +152,7 @@
 - (UITableView*)duplicate{
     NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:self];
     UITableView *NewView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    NewView.layer.masksToBounds = self.layer.masksToBounds;
-    NewView.layer.cornerRadius = self.layer.cornerRadius;
-    NewView.layer.borderColor = self.layer.borderColor;
-    NewView.layer.borderWidth = self.layer.borderWidth;
-    NewView.clipsToBounds = self.clipsToBounds;
+    [UIButton Ext_CopyAllLayer:NewView SelfView:self]; // 拷贝layer
     return NewView;
     
 }
@@ -132,11 +163,7 @@
 - (UICollectionView*)duplicate{
     NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:self];
     UICollectionView *NewView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    NewView.layer.masksToBounds = self.layer.masksToBounds;
-    NewView.layer.cornerRadius = self.layer.cornerRadius;
-    NewView.layer.borderColor = self.layer.borderColor;
-    NewView.layer.borderWidth = self.layer.borderWidth;
-    NewView.clipsToBounds = self.clipsToBounds;
+    [UIButton Ext_CopyAllLayer:NewView SelfView:self]; // 拷贝layer
     return NewView;
     
 }
@@ -147,11 +174,7 @@
 - (UIWebView*)duplicate{
     NSData * tempArchive = [NSKeyedArchiver archivedDataWithRootObject:self];
     UIWebView *NewView = [NSKeyedUnarchiver unarchiveObjectWithData:tempArchive];
-    NewView.layer.masksToBounds = self.layer.masksToBounds;
-    NewView.layer.cornerRadius = self.layer.cornerRadius;
-    NewView.layer.borderColor = self.layer.borderColor;
-    NewView.layer.borderWidth = self.layer.borderWidth;
-    NewView.clipsToBounds = self.clipsToBounds;
+    [UIButton Ext_CopyAllLayer:NewView SelfView:self]; // 拷贝layer
     return NewView;
     
 }
